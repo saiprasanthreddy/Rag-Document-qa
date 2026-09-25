@@ -1,113 +1,153 @@
-# RAG-Pipeline
+# 🧠 RAG Document QA
 
-A lightweight Retrieval-Augmented Generation (RAG) pipeline for document search, embedding, and summarization using Faiss, Sentence Transformers, and Groq.
+A Retrieval-Augmented Generation (RAG) application that allows users to search and ask questions across multiple document formats using semantic retrieval and an LLM.
 
-Developed by UV.
+## 🎯 Overview
 
-The installation and setup instructions in this README are provided by UV.
+This project combines document processing, text chunking, embeddings, vector search and LLM generation to build a practical document question-answering system.
 
-## Overview
+### Supported Documents
 
-This repository ingests documents from the `data` directory, builds a FAISS vector index from text embeddings, and performs query-driven retrieval plus summarization using a Groq language model.
+* PDF
+* TXT
+* CSV
+* XLSX
+* DOCX
+* JSON
 
-Key features:
+## ✨ Features
 
-- Supports PDF, TXT, CSV, XLSX, DOCX, and JSON document loading
-- Splits documents into semantic chunks before embedding
-- Builds and persists a FAISS vector store with metadata
-- Queries the vector store and summarizes results via a Groq LLM
-- Organized modular code in `src/` for loader, embedding, vector store, and search logic
+* 📄 Multi-format document ingestion
+* ✂️ Semantic text chunking
+* 🔢 Sentence Transformer embeddings
+* 🔎 FAISS vector similarity search
+* 🧠 Context-aware retrieval
+* 🤖 LLM-based answer generation
+* 💾 Persistent vector index
+* 🔐 Environment-based API key configuration
 
-## Repository Structure
-
-- `app.py` - main entrypoint for running the RAG pipeline
-- `main.py` - simple placeholder script
-- `src/data_loader.py` - document ingestion and loading
-- `src/embedding.py` - chunking and embedding pipeline
-- `src/vectorstore.py` - FAISS index management and nearest neighbor search
-- `src/search.py` - retrieval + LLM summarization wrapper
-- `data/` - source documents and vector store artifacts
-- `faiss_store/` - persisted FAISS index and metadata files
-
-## Requirements
-
-- Python 3.14+
-- `pip` package manager
-- Recommended: virtual environment
-
-## Installation
-
-```powershell
-cd "c:\Users\SAI\Desktop\data-Science\projects\RAG-pipline"
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-Alternatively, install via `pyproject.toml`:
-
-```powershell
-python -m pip install --upgrade pip
-python -m pip install .
-```
-
-## Environment
-
-Create a `.env` file in the project root with your Groq API key:
+## 🏗️ Architecture
 
 ```text
-GROQ_API_KEY=your_groq_api_key_here
+Documents
+    ↓
+Document Loader
+    ↓
+Text Extraction
+    ↓
+Chunking
+    ↓
+Sentence Transformer
+    ↓
+Embeddings
+    ↓
+FAISS Vector Store
+    ↓
+User Query
+    ↓
+Similarity Search
+    ↓
+Retrieved Context
+    ↓
+LLM
+    ↓
+Generated Answer
 ```
 
-> Do not commit secret keys to source control.
+## 🛠️ Tech Stack
 
-## Usage
+* Python
+* Sentence Transformers
+* FAISS
+* Groq
+* LangChain
+* NumPy
+* Pandas
 
-1. Place your supported documents under `data/`.
-   - `data/pdf/`
-   - `data/text_files/`
-   - `data/` subfolders for CSV, XLSX, DOCX, JSON
+## 📁 Project Structure
 
-2. Run the pipeline:
+```text
+Rag-Document-qa/
+│
+├── app.py
+├── main.py
+├── src/
+│   ├── data_loader.py
+│   ├── embedding.py
+│   ├── vectorstore.py
+│   └── search.py
+│
+├── data/
+├── faiss_store/
+├── requirements.txt
+└── README.md
+```
 
-```powershell
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/saiprasanthreddy/Rag-Document-qa.git
+cd Rag-Document-qa
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv .venv
+```
+
+Activate the environment according to your operating system.
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure environment variables
+
+Create a `.env` file:
+
+```text
+GROQ_API_KEY=your_api_key_here
+```
+
+Never commit your API key to GitHub.
+
+### 5. Add documents
+
+Place supported documents inside the `data/` directory.
+
+### 6. Run the application
+
+```bash
 python app.py
 ```
 
-The application will:
+## 🔍 How It Works
 
-- load documents from the `data` directory
-- build or load the FAISS index in `faiss_store`
-- perform a query and summarize the retrieved context
+1. Documents are loaded from the data directory.
+2. Text is extracted and divided into chunks.
+3. Sentence Transformer generates embeddings.
+4. FAISS stores the embeddings for similarity search.
+5. A user query is converted into an embedding.
+6. Relevant document chunks are retrieved.
+7. Retrieved context is provided to the LLM.
+8. The LLM generates the final answer.
 
-## Customization
+## 📌 Future Improvements
 
-- `src/embedding.py` controls chunk size and overlap
-- `src/vectorstore.py` controls the FAISS persistence directory and embedding model
-- `src/search.py` controls the retrieval strategy and Groq summarization prompt
+* Conversational memory
+* Hybrid keyword + vector search
+* Reranking
+* Streaming responses
+* Web-based interface
+* Evaluation using retrieval and generation metrics
 
-## Supported File Types
+## 👨‍💻 Author
 
-- PDF: `.pdf`
-- Text: `.txt`
-- CSV: `.csv`
-- Excel: `.xlsx`
-- Word: `.docx`
-- JSON: `.json`
+**Sai Prasanth Reddy**
 
-## Troubleshooting
-
-- If no documents are found, verify files exist under `data/` and are of a supported type.
-- If FAISS reload fails, delete `faiss_store/` and rerun `python app.py` to rebuild.
-- If the Groq client fails, verify `GROQ_API_KEY` is set and the key is valid.
-
-## Notes
-
-- `main.py` is a placeholder and prints `Hello from rag-pipline!`.
-- The actual query flow exists in `app.py` and `src/search.py`.
-- The project currently depends on `langchain`, `sentence-transformers`, `faiss-cpu`, `chromadb`, and Groq.
-
-## License
-
-Add your license information here.
+[GitHub](https://github.com/saiprasanthreddy) · [LinkedIn](https://www.linkedin.com/in/sai-prasanth-ai/)
